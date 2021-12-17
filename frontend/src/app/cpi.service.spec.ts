@@ -4,6 +4,8 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 
+import cpiJson from '../assets/cpi.json';
+
 import { CpiService } from './cpi.service';
 
 describe('CpiService', () => {
@@ -34,9 +36,23 @@ describe('CpiService', () => {
 
     expect(req.request.method).toBe('GET');
 
-    req.flush({ 1997: ['0.1'] });
+    req.flush(cpiJson);
     httpClientMock.verify();
 
     expect(service.isReady$.value).toBeTruthy();
+  });
+
+  it('should calculateInflation', () => {
+    expect(cpiJson).toBeTruthy();
+
+    service.fetchData$();
+    const req = httpClientMock.expectOne((req) =>
+      req.url.includes('/assets/cpi.json')
+    );
+    req.flush(cpiJson);
+    httpClientMock.verify();
+
+    const lastAmount: number = service.calculateInflation(1000).slice(-1)[0].y;
+    expect(Math.round(lastAmount)).toBe(484);
   });
 });

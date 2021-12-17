@@ -7,7 +7,7 @@ interface ICpiRawData {
   [key: string]: Array<string>;
 }
 
-interface IDataPoint {
+export interface IDataPoint {
   x: number; // unix timestamp
   y: number; // amount
 }
@@ -39,7 +39,6 @@ export class CpiService {
     let dataPoints: IDataPoint[] = [];
 
     let date = new Date(firstYear, 0, 1);
-    console.log(this.rawData);
     dataPoints.push({ x: date.getTime(), y: amount });
 
     years.forEach((year) => {
@@ -50,9 +49,6 @@ export class CpiService {
         dataPoints.push({ x: date.getTime(), y: amount });
       });
     });
-
-    console.log(amount);
-    console.log(date);
 
     return dataPoints;
   }

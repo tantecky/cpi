@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CpiService } from '../cpi.service';
+import { CpiService, IDataPoint } from '../cpi.service';
 
 @Component({
   selector: 'chart',
@@ -12,7 +12,10 @@ export class ChartComponent implements OnInit {
   ngOnInit(): void {
     this.cpiService.fetchData$().subscribe((isReady) => {
       if (isReady) {
-        this.cpiService.calculateInflation(1000);
+        const dataPoints: IDataPoint[] =
+          this.cpiService.calculateInflation(1000);
+
+        console.log(dataPoints);
       }
     });
   }

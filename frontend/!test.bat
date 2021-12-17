@@ -1,2 +1,2 @@
 @echo off
-ng test
+ng test --browsers ChromeHeadless
