@@ -9,5 +9,11 @@ import { CpiService } from '../cpi.service';
 export class ChartComponent implements OnInit {
   constructor(private cpiService: CpiService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.cpiService.fetchData$().subscribe((isReady) => {
+      if (isReady) {
+        this.cpiService.calculateInflation(1000);
+      }
+    });
+  }
 }
