@@ -12,7 +12,7 @@ import (
 )
 
 func parseTable(html string, tableNumber int) map[string][]string {
-	yearReg, _ := regexp.Compile(`(\d\d\d\d)`)
+	yearReg, _ := regexp.Compile(`>(\d\d\d\d)<`)
 	valueReg, _ := regexp.Compile(`([-]{0,1}\d+,\d)`)
 	data := make(map[string][]string)
 	year := ""
@@ -41,7 +41,6 @@ func parseTable(html string, tableNumber int) map[string][]string {
 					data[year] = append(data[year], value)
 					// fmt.Println(value)
 				}
-
 			}
 		}
 
