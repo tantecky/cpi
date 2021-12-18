@@ -1,11 +1,11 @@
-$width: 853px;
+$width: 852px;
 $height: 400px;
 
 canvas {
-  min-width: $width;
-  max-width: $width;
-  width: $width;
-  min-height: $height;
-  max-height: $height;
-  height: $height;
+  min-width: $width !important;
+  max-width: $width !important;
+  width: $width !important;
+  min-height: $height !important;
+  max-height: $height !important;
+  height: $height !important;
 }

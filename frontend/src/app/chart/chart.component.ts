@@ -9,8 +9,8 @@ const LOCALE: string = 'cs-CZ';
 const LINE_COLOR: string = '#4f4675';
 const CURRENCY_SYMBOL: string = 'Kč';
 
-const image = new Image();
-image.src = 'assets/1k.jpg';
+const BANKNOTE = new Image();
+BANKNOTE.src = 'assets/1k.jpg';
 
 @Component({
   selector: 'chart',
@@ -107,13 +107,15 @@ export class ChartComponent implements OnInit {
     {
       id: 'custom_canvas_background_image',
       beforeDraw: (chart: any) => {
-        if (image.complete) {
+        if (BANKNOTE.complete) {
           const ctx = chart.ctx;
           const x = 55;
-          const y = 25;
-          ctx.drawImage(image, x, y);
+          const y = 10;
+          const width = 795;
+          const height = 387;
+          ctx.drawImage(BANKNOTE, x, y, width, height);
         } else {
-          image.onload = () => chart.draw();
+          BANKNOTE.onload = () => chart.draw();
         }
       },
     },
