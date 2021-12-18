@@ -24,6 +24,12 @@ export class ChartComponent implements OnInit {
     datasets: [
       {
         data: [],
+        animations: {
+          y: {
+            duration: 2000,
+            delay: 0,
+          },
+        },
         pointRadius: 0,
         pointHitRadius: 10,
         borderColor: LINE_COLOR,
@@ -42,9 +48,17 @@ export class ChartComponent implements OnInit {
     maintainAspectRatio: false,
     animations: {
       y: {
-        easing: 'linear',
-        duration: 1000,
-        delay: 500,
+        easing: 'easeInOutElastic',
+        from: (ctx: any) => {
+          if (ctx.type === 'data') {
+            if (ctx.mode === 'default' && !ctx.dropped) {
+              ctx.dropped = true;
+              return 0;
+            }
+          }
+
+          return 1000;
+        },
       },
     },
     locale: LOCALE,
