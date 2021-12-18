@@ -109,9 +109,8 @@ export class ChartComponent implements OnInit {
       beforeDraw: (chart: any) => {
         if (image.complete) {
           const ctx = chart.ctx;
-          const { top, left, width, height } = chart.chartArea;
-          const x = left + width / 2 - image.width / 2;
-          const y = top + height / 2 - image.height / 2;
+          const x = 55;
+          const y = 25;
           ctx.drawImage(image, x, y);
         } else {
           image.onload = () => chart.draw();
@@ -123,13 +122,13 @@ export class ChartComponent implements OnInit {
   constructor(private cpiService: CpiService) {}
 
   ngOnInit(): void {
-    // this.cpiService.fetchData$().subscribe((isReady) => {
-    //   if (isReady) {
-    //     const dataPoints: IDataPoint[] =
-    //       this.cpiService.calculateInflation(1000);
-    //     this.chartData.datasets[0].data.push(...dataPoints);
-    //     this.chart?.update();
-    //   }
-    // });
+    this.cpiService.fetchData$().subscribe((isReady) => {
+      if (isReady) {
+        const dataPoints: IDataPoint[] =
+          this.cpiService.calculateInflation(1000);
+        this.chartData.datasets[0].data.push(...dataPoints);
+        this.chart?.update();
+      }
+    });
   }
 }
