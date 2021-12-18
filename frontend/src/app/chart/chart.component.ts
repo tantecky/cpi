@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { CpiService, IDataPoint } from '../cpi.service';
-import { ChartConfiguration, ChartData, ChartType, Plugin } from 'chart.js';
+import { ChartConfiguration, ChartData, ChartType } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import 'chartjs-adapter-date-fns';
 import { cs } from 'date-fns/locale';
