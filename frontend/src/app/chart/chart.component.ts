@@ -38,6 +38,8 @@ export class ChartComponent implements OnInit {
     ],
   };
   chartOptions: ChartConfiguration['options'] = {
+    responsive: false,
+    maintainAspectRatio: false,
     animations: {
       y: {
         easing: 'linear',
@@ -121,14 +123,13 @@ export class ChartComponent implements OnInit {
   constructor(private cpiService: CpiService) {}
 
   ngOnInit(): void {
-    this.cpiService.fetchData$().subscribe((isReady) => {
-      if (isReady) {
-        const dataPoints: IDataPoint[] =
-          this.cpiService.calculateInflation(1000);
-
-        this.chartData.datasets[0].data.push(...dataPoints);
-        this.chart?.update();
-      }
-    });
+    // this.cpiService.fetchData$().subscribe((isReady) => {
+    //   if (isReady) {
+    //     const dataPoints: IDataPoint[] =
+    //       this.cpiService.calculateInflation(1000);
+    //     this.chartData.datasets[0].data.push(...dataPoints);
+    //     this.chart?.update();
+    //   }
+    // });
   }
 }
