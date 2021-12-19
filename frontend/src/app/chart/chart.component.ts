@@ -6,8 +6,12 @@ import 'chartjs-adapter-date-fns';
 import { cs } from 'date-fns/locale';
 
 const LOCALE: string = 'cs-CZ';
-const LINE_COLOR: string = '#4f4675';
+const LINE_COLOR: string = '#251e52';
 const CURRENCY_SYMBOL: string = 'Kč';
+const FONT_AXIS: any = {
+  weight: 'bold',
+  size: 14,
+};
 
 const BANKNOTE = new Image();
 BANKNOTE.src = 'assets/1k.jpg';
@@ -70,6 +74,10 @@ export class ChartComponent implements OnInit {
         time: {
           tooltipFormat: 'd. M. yyyy',
         },
+        ticks: {
+          font: FONT_AXIS,
+          color: LINE_COLOR,
+        },
         grid: {
           display: true,
         },
@@ -85,6 +93,8 @@ export class ChartComponent implements OnInit {
           display: true,
         },
         ticks: {
+          font: FONT_AXIS,
+          color: LINE_COLOR,
           callback: function (value, index, values) {
             return `${value} ${CURRENCY_SYMBOL}`;
           },
@@ -123,10 +133,10 @@ export class ChartComponent implements OnInit {
       beforeDraw: (chart: any) => {
         if (BANKNOTE.complete) {
           const ctx = chart.ctx;
-          const x = 55;
-          const y = 10;
-          const width = 795;
-          const height = 387;
+          const x = 64;
+          const y = 12;
+          const width = BANKNOTE.width;
+          const height = BANKNOTE.height;
           ctx.drawImage(BANKNOTE, x, y, width, height);
         } else {
           BANKNOTE.onload = () => chart.draw();
