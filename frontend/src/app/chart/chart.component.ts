@@ -78,7 +78,7 @@ export class ChartComponent implements OnInit {
           color: LINE_COLOR,
         },
         grid: {
-          display: true,
+          display: false,
         },
         adapters: {
           date: {
@@ -89,7 +89,7 @@ export class ChartComponent implements OnInit {
       y: {
         beginAtZero: true,
         grid: {
-          display: true,
+          display: false,
         },
         ticks: {
           font: FONT_AXIS,

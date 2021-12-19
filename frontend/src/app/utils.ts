@@ -9,3 +9,7 @@ export function roundCurrency(value: number, digits: number = 1): string {
 
   return `${roundedValue} ${CURRENCY_SYMBOL}`;
 }
+
+export function sleep(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
