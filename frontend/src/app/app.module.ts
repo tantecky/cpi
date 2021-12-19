@@ -6,9 +6,10 @@ import { AppComponent } from './app.component';
 import { ChartComponent } from './chart/chart.component';
 import { NgChartsModule } from 'ng2-charts';
 import { HeaderComponent } from './header/header.component';
+import { FooterComponent } from './footer/footer.component';
 
 @NgModule({
-  declarations: [AppComponent, ChartComponent, HeaderComponent],
+  declarations: [AppComponent, ChartComponent, HeaderComponent, FooterComponent],
   imports: [BrowserModule, HttpClientModule, NgChartsModule],
   providers: [],
   bootstrap: [AppComponent],
