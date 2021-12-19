@@ -2,14 +2,18 @@ package main
 
 import (
 	"encoding/json"
+	"errors"
 	"io/ioutil"
 	"log"
 	"net/http"
+	"os"
 	"regexp"
 	"strings"
 
 	"github.com/anaskhan96/soup"
 )
+
+const cpiJson = "./cpi.json"
 
 func parseTable(html string, tableNumber int) map[string][]string {
 	yearReg, _ := regexp.Compile(`>(\d\d\d\d)<`)
@@ -84,7 +88,11 @@ func main() {
 	json, err := json.Marshal(data)
 	checkErr(err)
 
-	err = ioutil.WriteFile("./cpi.json", json, 0644)
-	checkErr(err)
+	fileInfo, err := os.Stat(cpiJson)
+
+	if errors.Is(err, os.ErrNotExist) || fileInfo.Size() <= int64(len(json)) {
+		err = ioutil.WriteFile(cpiJson, json, 0644)
+		checkErr(err)
+	}
 
 }
