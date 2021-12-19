@@ -90,7 +90,7 @@ func main() {
 
 	fileInfo, err := os.Stat(cpiJson)
 
-	if errors.Is(err, os.ErrNotExist) || fileInfo.Size() <= int64(len(json)) {
+	if errors.Is(err, os.ErrNotExist) || fileInfo.Size() < int64(len(json)) {
 		err = ioutil.WriteFile(cpiJson, json, 0644)
 		checkErr(err)
 	}
