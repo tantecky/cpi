@@ -25,7 +25,7 @@ describe('CpiService', () => {
   });
 
   it('should not be ready', () => {
-    expect(service.isReady$.value).toBeFalsy();
+    expect(service.isReadyForCalculation$.value).toBeFalsy();
   });
 
   it('should fetch data', () => {
@@ -39,7 +39,7 @@ describe('CpiService', () => {
     req.flush(cpiJson);
     httpClientMock.verify();
 
-    expect(service.isReady$.value).toBeTruthy();
+    expect(service.isReadyForCalculation$.value).toBeTruthy();
   });
 
   it('should calculateInflation', () => {
@@ -52,7 +52,7 @@ describe('CpiService', () => {
     req.flush(cpiJson);
     httpClientMock.verify();
 
-    const lastAmount: number = service.calculateInflation(1000).slice(-1)[0].y;
+    const lastAmount: number = service.calculateInflation().slice(-1)[0].y;
     expect(Math.round(lastAmount)).toBe(484);
   });
 });

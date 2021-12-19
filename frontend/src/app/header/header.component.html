@@ -1,0 +1,4 @@
+<h1 *ngIf="cpiService.isCalculated$ | async">
+  Kupní síla {{ initialAmount }} k
+  {{ cpiService.lastYear | date: "d. M. yyyy" }}: <b>{{ lastAmount }}</b>
+</h1>

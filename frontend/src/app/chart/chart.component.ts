@@ -4,10 +4,9 @@ import { ChartConfiguration, ChartData, ChartType } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import 'chartjs-adapter-date-fns';
 import { cs } from 'date-fns/locale';
+import { CURRENCY_SYMBOL, LOCALE, roundCurrency } from '../utils';
 
-const LOCALE: string = 'cs-CZ';
 const LINE_COLOR: string = '#251e52';
-const CURRENCY_SYMBOL: string = 'Kč';
 const FONT_AXIS: any = {
   weight: 'bold',
   size: 14,
@@ -112,12 +111,7 @@ export class ChartComponent implements OnInit {
             if (context.parsed.y !== null) {
               const value: number = context.parsed.y;
 
-              const roundedValue: string = value.toLocaleString(LOCALE, {
-                minimumFractionDigits: 1,
-                maximumFractionDigits: 1,
-              });
-
-              return `${roundedValue} ${CURRENCY_SYMBOL}`;
+              return roundCurrency(value);
             }
 
             return '';
@@ -148,10 +142,9 @@ export class ChartComponent implements OnInit {
   constructor(private cpiService: CpiService) {}
 
   ngOnInit(): void {
-    this.cpiService.fetchData$().subscribe((isReady) => {
-      if (isReady) {
-        const dataPoints: IDataPoint[] =
-          this.cpiService.calculateInflation(1000);
+    this.cpiService.fetchData$().subscribe((isReadyForCalculation) => {
+      if (isReadyForCalculation) {
+        const dataPoints: IDataPoint[] = this.cpiService.calculateInflation();
         this.chartData.datasets[0].data.push(...dataPoints);
         this.chart?.update();
       }

@@ -18,7 +18,15 @@ export interface IDataPoint {
 export class CpiService {
   private rawData: ICpiRawData | any = null;
 
-  isReady$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  isReadyForCalculation$: BehaviorSubject<boolean> =
+    new BehaviorSubject<boolean>(false);
+
+  isCalculated$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+
+  firstYear: Date = new Date();
+  lastYear: Date = new Date();
+  initialAmount: number = 1000;
+  lastAmount: number = 1000;
 
   constructor(private http: HttpClient) {}
 
@@ -26,19 +34,21 @@ export class CpiService {
     this.http.get<ICpiRawData>('/assets/cpi.json').subscribe({
       next: (res) => (this.rawData = res),
       error: (e) => console.error(e),
-      complete: () => this.isReady$.next(true),
+      complete: () => this.isReadyForCalculation$.next(true),
     });
 
-    return this.isReady$;
+    return this.isReadyForCalculation$;
   }
 
-  calculateInflation(amount: number): Array<IDataPoint> {
+  calculateInflation(): Array<IDataPoint> {
+    let amount: number = this.initialAmount;
     const years: string[] = Object.keys(this.rawData).sort();
     const firstYear: number = Number(years[0]);
 
     let dataPoints: IDataPoint[] = [];
 
     let date = new Date(firstYear, 0, 1);
+    this.firstYear = new Date(date);
     dataPoints.push({ x: date.getTime(), y: amount });
 
     years.forEach((year) => {
@@ -49,6 +59,10 @@ export class CpiService {
         dataPoints.push({ x: date.getTime(), y: amount });
       });
     });
+
+    this.lastYear = new Date(date);
+    this.lastAmount = amount;
+    this.isCalculated$.next(true);
 
     return dataPoints;
   }
