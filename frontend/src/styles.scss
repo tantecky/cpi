@@ -11,4 +11,12 @@ body {
 
 h1 {
   font-weight: normal;
+  color: $main-color;
+}
+
+a:link {
+  color: $main-color;
+}
+a:visited {
+  color: $main-color;
 }

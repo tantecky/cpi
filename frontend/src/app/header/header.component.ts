@@ -19,7 +19,7 @@ export class HeaderComponent implements OnInit {
   ngOnInit(): void {
     this.cpiService.isCalculated$.subscribe(async (isCalculated) => {
       if (isCalculated) {
-        const start = this.cpiService.initialAmount;
+        const start = this.cpiService.initialAmount - 1;
         const end = Math.ceil(this.cpiService.lastAmount);
 
         await sleep(1000);
