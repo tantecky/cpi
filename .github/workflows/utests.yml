@@ -25,3 +25,12 @@ jobs:
       - name: Run Go utests
         run: go test
         working-directory: scrapper
+
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v2.5.0
+      - name: Run Angular utests
+        working-directory: frontend
+        run: |
+          npm ci
+          npm run test:headless
+          npm run build
