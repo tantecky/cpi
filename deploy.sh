@@ -8,4 +8,4 @@ npm ci
 npm run build
 cd ../scrapper
 go build
-./update_data.sh
+../update_data.sh
