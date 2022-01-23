@@ -131,7 +131,9 @@ export class ChartComponent implements OnInit {
           const y = 12;
           const width = BANKNOTE.width;
           const height = BANKNOTE.height;
-          ctx.drawImage(BANKNOTE, x, y, width, height);
+          const chartAreaWidth = chart.chartArea.width;
+
+          ctx.drawImage(BANKNOTE, x, y, Math.ceil(chartAreaWidth + 2), height);
         } else {
           BANKNOTE.onload = () => chart.draw();
         }
