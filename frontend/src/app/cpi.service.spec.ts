@@ -53,6 +53,6 @@ describe('CpiService', () => {
     httpClientMock.verify();
 
     const lastAmount: number = service.calculateInflation().slice(-1)[0].y;
-    expect(Math.round(lastAmount)).toBe(484);
+    expect(Math.round(lastAmount)).toBe(482);
   });
 });
