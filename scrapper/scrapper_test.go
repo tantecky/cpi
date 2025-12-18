@@ -8,7 +8,7 @@ import (
 
 func TestParseTable(t *testing.T) {
 	html := readFile("./cpi.html")
-	data := parseTable(html, 4)
+	data := parseTable(html)
 
 	assert.Equal(t, 12, len(data["1998"]), "they should be equal")
 	assert.Equal(t, 12, len(data["2014"]), "they should be equal")

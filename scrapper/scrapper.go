@@ -15,31 +15,26 @@ import (
 
 const cpiJson = "./cpi.json"
 
-func parseTable(html string, tableNumber int) map[string][]string {
+func parseTable(html string) map[string][]string {
 	yearReg, _ := regexp.Compile(`>(\d\d\d\d)<`)
 	valueReg, _ := regexp.Compile(`([-]{0,1}\d+,\d)`)
 	data := make(map[string][]string)
 	year := ""
-	tableIdx := 0
 
 	doc := soup.HTMLParse(html)
 
-	for _, tbody := range doc.FindAll("table", "class", "tabulka") {
-		tableIdx++
-
-		if tableIdx != tableNumber {
-			continue
-		}
-
+	for _, tbody := range doc.FindAll("div", "id", "tabulka-4") {
 		for _, tr := range tbody.FindAll("tr") {
+			inside := tr.HTML()
+			if yearReg.MatchString(inside) {
+				m := yearReg.FindStringSubmatch(inside)
+				year = m[1]
+				// fmt.Println(year)
+			}
 			for _, td := range tr.FindAll("td") {
 				inside := td.HTML()
 
-				if yearReg.MatchString(inside) {
-					m := yearReg.FindStringSubmatch(inside)
-					year = m[1]
-					// fmt.Println(year)
-				} else if valueReg.MatchString(inside) {
+				if valueReg.MatchString(inside) {
 					m := valueReg.FindStringSubmatch(inside)
 					value := strings.ReplaceAll(m[1], ",", ".")
 					data[year] = append(data[year], value)
@@ -48,10 +43,9 @@ func parseTable(html string, tableNumber int) map[string][]string {
 			}
 		}
 
-		return data
 	}
 
-	return nil
+	return data
 
 }
 
@@ -81,9 +75,10 @@ func fetchHtml(url string) string {
 }
 
 func main() {
-	html := fetchHtml("https://www.czso.cz/csu/czso/mira_inflace")
-	// parse table number 4
-	data := parseTable(html, 4)
+	html := fetchHtml("https://csu.gov.cz/mira_inflace")
+	// for debugging
+	// html := readFile("./cpi.html")
+	data := parseTable(html)
 
 	json, err := json.Marshal(data)
 	checkErr(err)
